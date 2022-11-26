@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-row layout">
-    <side-bar v-if="isSideBarOpen" />
+    <side-nav v-if="isSideNavOpen" />
     <div class="flex flex-col flex-grow">
-      <NavBar @toggle="toggleSideBar" />
+      <NavBar @toggle="toggleSideNav" />
       <div class="p-3 content bg-slate-200 flex-grow flex-row flex">
         <router-view />
       </div>
@@ -13,22 +13,22 @@
 <style lang="scss"></style>
 
 <script>
-import SideBar from "../components/SideBar.vue";
-import NavBar from "../components/NavBar.vue";
+import NavBar from '../components/NavBar.vue'
+import SideNav from '../components/SideNav.vue'
 export default {
   components: {
     NavBar,
-    SideBar,
+    SideNav
   },
-  data() {
-    return { isSideBarOpen: false };
+  data () {
+    return { isSideNavOpen: false }
   },
   methods: {
-    toggleSideBar() {
-      this.isSideBarOpen = !this.isSideBarOpen;
-    },
-  },
-};
+    toggleSideNav () {
+      this.isSideNavOpen = !this.isSideNavOpen
+    }
+  }
+}
 </script>
 
 <style lang="sass" scoped>
