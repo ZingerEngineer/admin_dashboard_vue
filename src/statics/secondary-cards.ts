@@ -1,21 +1,24 @@
+import { emitter } from '@/utils/emitter'
 import {
   BellIcon,
   ChartBarIcon,
   ChevronDownIcon
 } from '@heroicons/vue/24/outline'
-import { DefinedComponent } from '@vue/test-utils/dist/types'
-import { FunctionalComponent, HTMLAttributes, VNodeProps} from 'vue'
-import BarChart from '../components/BarChart.vue'
-type ComponentList = {
- label:string 
- component: DefinedComponent
+import {
+  FunctionalComponent,
+  HTMLAttributes,
+  VNodeProps
+} from 'vue'
+type DropDownItem = {
+  label: string
+  action: () => void
 }
 type SecondaryCard = {
   icon: FunctionalComponent<HTMLAttributes & VNodeProps>
   label: string
   functional: boolean
   dropDownIcon: FunctionalComponent<HTMLAttributes & VNodeProps> | null
-  CardDropDownItems: string[] | ComponentList[] | null
+  CardDropDownItemList: DropDownItem[] | null
 }
 
 export const SecondaryCardList: SecondaryCard[] = [
@@ -24,17 +27,19 @@ export const SecondaryCardList: SecondaryCard[] = [
     label: 'Charts',
     functional: true,
     dropDownIcon: ChevronDownIcon,
-    CardDropDownItems: [
-     {
-      label: "Bar chart",
-      component: BarChart
-     },{
-      label: "Pie chart",
-      component: BarChart
-     },{
-      label: "Line chart",
-      component: BarChart
-     }
+    CardDropDownItemList: [
+      {
+        label: 'Bar chart',
+        action: () => emitter.emit('change-secondary-card-chart-type', 'bar')
+      },
+      {
+        label: 'Pie chart',
+        action: () => emitter.emit('change-secondary-card-chart-type', 'pie')
+      },
+      {
+        label: 'Line chart',
+        action: () => emitter.emit('change-secondary-card-chart-type', 'line')
+      }
     ]
   },
   {
@@ -42,6 +47,6 @@ export const SecondaryCardList: SecondaryCard[] = [
     label: 'Notifications',
     functional: false,
     dropDownIcon: null,
-    CardDropDownItems: null
+    CardDropDownItemList: null
   }
 ]

@@ -13,21 +13,18 @@
     <MenuItems
       class="right-0 w-28 z-10 w-fit h-fit origin-top-right bg-white shadow-lg focus:outline-none justify-center items-center flex flex-col absolute border-slate-400 border-solid border-[1px]"
     >
-      <div
-        class=""
-        v-for="item in SecondaryCard.CardDropDownItems"
-        :key="item"
-      >
+      <div class="" v-for="item in SecondaryCard.CardDropDownItemList" :key="item">
         <MenuItem v-slot="{ active }">
           <a
             href="#"
+            @click="item.action"
             :class="[
               active
                 ? 'bg-white text-gray-800 border-slate-400'
                 : 'text-gray-800 border-slate-400 ',
               'flex justify-center px-4 py-2 text-sm'
             ]"
-            >{{ item }}</a
+            >{{ item.label }}</a
           >
         </MenuItem>
       </div>

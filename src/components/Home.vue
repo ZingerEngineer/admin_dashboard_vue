@@ -18,7 +18,18 @@
         <secondary-card :SecondaryCard="SecondaryCard">
           <template #secondary-card-content>
             <div class="p-6">
-              <BarChart :height="250"/>
+              <Bar
+                v-if="chartType === 'bar'"
+                :height="250"
+                :width="400"
+                :chart-options="barChartData"
+                :chart-data="chartData"
+              />
+              <Pie
+              v-if="chartType === 'pie'"
+                :chart-options="barChartData"
+                :chart-data="chartData"
+              />
             </div> </template
         ></secondary-card>
       </div>
@@ -27,26 +38,56 @@
 </template>
 
 <script lang="ts">
-import BarChart from './BarChart.vue'
 import Card from './Card.vue'
 import { cardsList } from '../statics/cards'
 import { SecondaryCardList } from '../statics/secondary-cards'
 import SecondaryCard from './SecondaryCard.vue'
+import { Bar ,Pie } from 'vue-chartjs'
+import { emitter } from '@/utils/emitter'
+import { defineComponent } from '@vue/runtime-core'
 
-export default {
+export default defineComponent({
   name: 'Home-page',
   components: {
     Card,
     SecondaryCard,
-    BarChart
+    Bar,
+    Pie,
   },
   data() {
     return {
+      chartType: 'bar',
       SecondaryCardList,
-      cardsList
+      cardsList,
+      barChartData: {
+        labels: [
+          'Saturday',
+          'Sunday',
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thuresday',
+          'Friday'
+        ],
+        datasets: [
+          {
+            label: 'Sign ups',
+            backgroundColor: '#0083ff',
+            data: [40, 20, 12, 39, 10, 40, 39]
+          }
+        ]
+      },
+      chartOptions: {
+        responsive: true
+      }
     }
+  },
+  mounted() {
+    emitter.on('change-secondary-card-chart-type', (data: string) => {
+      this.chartType = data
+    })
   }
-}
+})
 </script>
 
 <style lang="sass" scoped>
