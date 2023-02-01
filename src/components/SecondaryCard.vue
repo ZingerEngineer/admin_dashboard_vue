@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="content h-[300px]">
+    <div class="content h-full">
     <slot name="secondary-card-content">
        </slot>
     </div>

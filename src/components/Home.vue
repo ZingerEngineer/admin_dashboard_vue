@@ -17,21 +17,22 @@
       >
         <secondary-card :SecondaryCard="SecondaryCard">
           <template #secondary-card-content>
-            <div class="p-6">
+            <div>
               <Bar
-                v-if="chartType === 'bar'"
+                v-if="chartType == barData.type"
                 :height="250"
                 :width="400"
-                :chart-options="barChartData"
-                :chart-data="chartData"
+                :chart-options="barData.chartOptions"
+                :chart-data="barData.chartsData"
               />
               <Pie
-              v-if="chartType === 'pie'"
-                :chart-options="barChartData"
-                :chart-data="chartData"
+                v-if="chartType == pieData.type"
+                :chart-options="pieData.chartOptions"
+                :chart-data="pieData.chartsData"
               />
-            </div> </template
-        ></secondary-card>
+            </div>
+          </template>
+        </secondary-card>
       </div>
     </div>
   </div>
@@ -42,9 +43,10 @@ import Card from './Card.vue'
 import { cardsList } from '../statics/cards'
 import { SecondaryCardList } from '../statics/secondary-cards'
 import SecondaryCard from './SecondaryCard.vue'
-import { Bar ,Pie } from 'vue-chartjs'
+import { Bar, Pie } from 'vue-chartjs'
 import { emitter } from '@/utils/emitter'
 import { defineComponent } from '@vue/runtime-core'
+import { barData, pieData } from '../statics/charts-data'
 
 export default defineComponent({
   name: 'Home-page',
@@ -52,37 +54,19 @@ export default defineComponent({
     Card,
     SecondaryCard,
     Bar,
-    Pie,
+    Pie
   },
   data() {
     return {
       chartType: 'bar',
       SecondaryCardList,
       cardsList,
-      barChartData: {
-        labels: [
-          'Saturday',
-          'Sunday',
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thuresday',
-          'Friday'
-        ],
-        datasets: [
-          {
-            label: 'Sign ups',
-            backgroundColor: '#0083ff',
-            data: [40, 20, 12, 39, 10, 40, 39]
-          }
-        ]
-      },
-      chartOptions: {
-        responsive: true
-      }
+      barData,
+      pieData
     }
   },
   mounted() {
+    console.log(barData.type)
     emitter.on('change-secondary-card-chart-type', (data: string) => {
       this.chartType = data
     })
