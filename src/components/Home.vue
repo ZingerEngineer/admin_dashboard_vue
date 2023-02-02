@@ -1,6 +1,8 @@
 <template>
-  <div class="flex-col flex flex-grow">
-    <div class="cards flex flex-col flex-grow justify-between md:flex-row">
+  <div class="flex-col flex flex-grow justify-start">
+    <div
+      class="cards flex flex-col mb-10 justify-between md:flex-row "
+    >
       <div
         v-for="card in cardsList"
         :key="card.label"
@@ -13,15 +15,31 @@
       <div
         v-for="SecondaryCard in SecondaryCardList"
         :key="SecondaryCard.label"
-        class="flex flex-grow"
+        class="flex  w-[49%] h-fit"
       >
         <secondary-card :SecondaryCard="SecondaryCard">
           <template #secondary-card-content>
-            <div>
-              <Bar
+            <div
+              v-if="
+                SecondaryCard.contentType.type == secondaryCardContentType[0]
+              "
+              class="flex flex-col flex-grow py-3"
+            >
+              <div
+                v-for="comment in SecondaryCard.contentType.content"
+                :key="comment.label"
+              >
+                <comment-element :comment="comment" />
+              </div>
+            </div>
+            <div
+              v-if="
+                SecondaryCard.contentType.type == secondaryCardContentType[1]
+              "
+              class="flex flex-grow justify-center content-center max-h-[300px]"
+            >
+              <Bar 
                 v-if="chartType == barData.type"
-                :height="250"
-                :width="400"
                 :chart-options="barData.chartOptions"
                 :chart-data="barData.chartsData"
               />
@@ -29,6 +47,11 @@
                 v-if="chartType == pieData.type"
                 :chart-options="pieData.chartOptions"
                 :chart-data="pieData.chartsData"
+              />
+                            <Line
+                v-if="chartType == lineData.type"
+                :chart-options="lineData.chartOptions"
+                :chart-data="lineData.chartsData"
               />
             </div>
           </template>
@@ -43,18 +66,20 @@ import Card from './Card.vue'
 import { cardsList } from '../statics/cards'
 import { SecondaryCardList } from '../statics/secondary-cards'
 import SecondaryCard from './SecondaryCard.vue'
-import { Bar, Pie } from 'vue-chartjs'
+import { Bar, Pie, Line } from 'vue-chartjs'
 import { emitter } from '@/utils/emitter'
 import { defineComponent } from '@vue/runtime-core'
-import { barData, pieData } from '../statics/charts-data'
-
+import { barData, pieData , lineData } from '../statics/charts-data'
+import commentElement from './Comment.vue'
 export default defineComponent({
   name: 'Home-page',
   components: {
     Card,
     SecondaryCard,
     Bar,
-    Pie
+    Pie,
+    Line,
+    commentElement
   },
   data() {
     return {
@@ -62,11 +87,13 @@ export default defineComponent({
       SecondaryCardList,
       cardsList,
       barData,
-      pieData
+      pieData,
+      lineData,
+      secondaryCardContentType: ['Comments', 'Charts']
     }
   },
   mounted() {
-    console.log(barData.type)
+    console.log()
     emitter.on('change-secondary-card-chart-type', (data: string) => {
       this.chartType = data
     })

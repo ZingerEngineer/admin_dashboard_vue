@@ -3,7 +3,7 @@
     <side-nav v-if="isSideNavOpen" />
     <div class="flex flex-col flex-grow">
       <NavBar @toggle="toggleSideNav" />
-      <div class="p-3 content bg-slate-200 flex-grow flex-row flex">
+      <div class="p-10 content bg-slate-200 flex-grow flex-row flex">
         <router-view />
       </div>
     </div>

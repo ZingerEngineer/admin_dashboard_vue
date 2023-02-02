@@ -2,36 +2,39 @@ import { emitter } from '@/utils/emitter'
 import {
   BellIcon,
   ChartBarIcon,
-  ChevronDownIcon,
+  ChevronDownIcon
 } from '@heroicons/vue/24/outline'
-import {
-  FunctionalComponent,
-  HTMLAttributes,
-  VNodeProps
-} from 'vue'
+import { FunctionalComponent, HTMLAttributes, VNodeProps } from 'vue'
+import { commentList, Comment } from './comments'
+import { ChartData, barData, pieData } from './charts-data'
+type CommentContent = {
+  type: string
+  content: Comment[]
+}
+type ChartContent = {
+  type: string
+  content: ChartData[]
+}
 type DropDownItem = {
   label: string
   action: () => void
 }
-type comments = {
-  icon : FunctionalComponent<HTMLAttributes & VNodeProps>
-  label : string
-}
 type SecondaryCard = {
   icon: FunctionalComponent<HTMLAttributes & VNodeProps>
   label: string
-  contentType : string
+  contentType?: CommentContent | ChartContent
   functional: boolean
   dropDownIcon: FunctionalComponent<HTMLAttributes & VNodeProps> | null
   CardDropDownItemList: DropDownItem[] | null
-  bottomButton : boolean
+  bottomButton: boolean
+  buttonMessage?: string
 }
 
 export const SecondaryCardList: SecondaryCard[] = [
   {
     icon: ChartBarIcon,
     label: 'Charts',
-    contentType : "chart",
+    contentType: { type: 'Charts', content: [barData, pieData] },
     functional: true,
     dropDownIcon: ChevronDownIcon,
     CardDropDownItemList: [
@@ -48,15 +51,16 @@ export const SecondaryCardList: SecondaryCard[] = [
         action: () => emitter.emit('change-secondary-card-chart-type', 'line')
       }
     ],
-    bottomButton : false
+    bottomButton: false
   },
   {
     icon: BellIcon,
     label: 'Notifications',
-    contentType : "comments",
+    contentType: { type: 'Comments', content: commentList },
     functional: false,
     dropDownIcon: null,
     CardDropDownItemList: null,
-    bottomButton : true
+    bottomButton: true,
+    buttonMessage: 'Show all'
   }
 ]
