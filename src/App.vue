@@ -3,11 +3,11 @@
 </template>
 
 <style lang="scss">
-html{
+html {
   width: 100%;
   height: 100%;
 }
-body{
+body {
   width: 100%;
   height: 100%;
 }
@@ -32,21 +32,20 @@ nav {
 </style>
 
 <script>
-import SideBar from './components/SideBar.vue'
+import SideNav from './components/SideNav.vue'
 import NavBar from './components/NavBar.vue'
-export default ({
+export default {
   components: {
     NavBar,
-    SideBar
-
+    SideNav
   },
-  data () {
-    return { isSideBarOpen: false }
+  data() {
+    return { isSideNavOpen: false }
   },
   methods: {
-    toggleSideBar () {
-      this.isSideBarOpen = !this.isSideBarOpen
+    toggleSideNav() {
+      this.isSideNavOpen = !this.isSideNavOpen
     }
   }
-})
+}
 </script>

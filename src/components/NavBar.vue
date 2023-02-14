@@ -12,13 +12,18 @@
             <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
           </DisclosureButton>
         </div>
-        <div
-          class="flex items-center justify-center w-full"
-        >
-        <div class="pr-2 flex">
-          <button class="w-8 h-8 flex items-center justify-center" @click ="toggleSideBar"><Bars4Icon class="w-6"/></button>
-          <button class="w-8 h-8 flex items-center justify-center"><MagnifyingGlassIcon class="w-6"/></button>
-        </div>
+        <div class="flex items-center justify-center w-full">
+          <div class="pr-2 flex">
+            <button
+              class="w-8 h-8 flex items-center justify-center"
+              @click="toggleSideNav"
+            >
+              <Bars4Icon class="w-6" />
+            </button>
+            <button class="w-8 h-8 flex items-center justify-center">
+              <MagnifyingGlassIcon class="w-6" />
+            </button>
+          </div>
           <div class="w-full">
             <div class="relative">
               <div
@@ -28,7 +33,7 @@
                 type="text"
                 name="price"
                 id="price"
-                class="block w-full pl-7 pr-12 pt-3.5  pb-3.5 sm:text-sm outline-none"
+                class="block w-full pl-7 pr-12 pt-3.5 pb-3.5 sm:text-sm outline-none"
                 placeholder="Search..."
               />
               <div class="absolute inset-y-0 right-0 flex items-center"></div>
@@ -82,7 +87,7 @@
                     href="#"
                     :class="[
                       active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700',
+                      'block px-4 py-2 text-sm text-gray-700'
                     ]"
                     >Your Profile</a
                   >
@@ -92,7 +97,7 @@
                     href="#"
                     :class="[
                       active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700',
+                      'block px-4 py-2 text-sm text-gray-700'
                     ]"
                     >Settings</a
                   >
@@ -102,7 +107,7 @@
                     href="#"
                     :class="[
                       active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700',
+                      'block px-4 py-2 text-sm text-gray-700'
                     ]"
                     >Sign out</a
                   >
@@ -125,7 +130,7 @@
             item.current
               ? 'bg-gray-900 text-white'
               : 'text-gray-300 hover:bg-gray-700 ',
-            'block px-3 py-2 rounded-md text-base font-medium',
+            'block px-3 py-2 rounded-md text-base font-medium'
           ]"
           :aria-current="item.current ? 'page' : undefined"
           >{{ item.name }}</DisclosureButton
@@ -173,7 +178,7 @@ export default defineComponent({
     Bars4Icon,
     MagnifyingGlassIcon
   },
-  data () {
+  data() {
     return {
       navigation: [
         { name: 'Dashboard', href: '#', current: true },
@@ -184,11 +189,11 @@ export default defineComponent({
     }
   },
   methods: {
-    toggleSideBar ():void {
+    toggleSideNav(): void {
       this.$emit('toggle')
     }
   }
 })
 </script>
 
-<style lang='sass'></style>
+<style lang="sass"></style>
