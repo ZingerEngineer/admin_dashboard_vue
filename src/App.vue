@@ -15,6 +15,8 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   display: flex;
   height: 100%;
+  margin: auto;
+  justify-content: center;
 }
 
 nav {
