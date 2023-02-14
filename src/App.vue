@@ -16,6 +16,7 @@ body{
   display: flex;
   height: 100%;
   margin: auto;
+  justify-content: center;
 }
 
 nav {
