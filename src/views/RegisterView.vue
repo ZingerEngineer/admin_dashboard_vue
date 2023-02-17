@@ -15,13 +15,29 @@
           Register your account.
         </h2>
       </div>
-      <form class="mt-8 space-y-6" @submit.prevent>
-        <input type="hidden" name="remember" value="true" />
+      <form
+        class="mt-8 space-y-6"
+        @submit.prevent
+      >
+        <input
+          type="hidden"
+          name="remember"
+          value="true"
+        />
         <div class="-space-y-px rounded-md shadow-sm">
           <div>
-            <label for="email-address" class="sr-only">Email address</label>
+            <label
+              for="email-address"
+              class="sr-only"
+              >Email address</label
+            >
             <input
               v-model="emailText"
+              @change="
+                () => {
+                  validateEmail(emailText), isValidSubmitValueChange();
+                }
+              "
               id="email-address"
               name="email"
               type="email"
@@ -32,9 +48,18 @@
             />
           </div>
           <div>
-            <label for="password" class="sr-only">Password</label>
+            <label
+              for="password"
+              class="sr-only"
+              >Password</label
+            >
             <input
               v-model="passwordText"
+              @change="
+                () => {
+                  validatePassword(passwordText), isValidSubmitValueChange();
+                }
+              "
               id="password"
               name="password"
               type="password"
@@ -45,7 +70,6 @@
             />
           </div>
         </div>
-
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <input
@@ -54,7 +78,9 @@
               type="checkbox"
               class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
             />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900"
+            <label
+              for="remember-me"
+              class="ml-2 block text-sm text-gray-900"
               >Remember me</label
             >
           </div>
@@ -68,12 +94,7 @@
               <LockClosedIcon
                 class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
                 aria-hidden="true"
-                @click="
-                  () => {
-                    validCredentialsCheck();
-                    isValidSubmitValueChange();
-                  }
-                "
+                @click="register"
               />
             </span>
             register
@@ -85,49 +106,50 @@
 </template>
 
 <script lang="ts">
-import { LockClosedIcon } from '@heroicons/vue/20/solid'
-import { defineComponent } from "@vue/runtime-core";
+import { LockClosedIcon } from '@heroicons/vue/20/solid';
+import { defineComponent } from '@vue/runtime-core';
 import {
   emailInputValidation,
-  passwordInputValidation,
-} from "../utils/inputValidation";
-import axios from "axios";
+  passwordInputValidation
+} from '../utils/inputValidation';
+import axios from 'axios';
 export default defineComponent({
-  name: "register-page",
+  name: 'register-page',
+  components: {
+    LockClosedIcon
+  },
   data() {
     return {
+      backEndPostUrl: 'http://localhost:3001/api/create',
       isValidEmailInput: false,
       isValidPasswordInput: false,
       isValidSubmit: false,
-      emailText: "",
-      passwordText: "",
+      emailText: '',
+      passwordText: ''
     };
   },
   methods: {
     validateEmail(email: string) {
-      return emailInputValidation(email);
+      this.isValidEmailInput = emailInputValidation(email);
     },
     validatePassword(password: string) {
-      return passwordInputValidation(password);
-    },
-    validCredentialsCheck() {
-      this.isValidEmailInput = this.validateEmail(this.emailText);
-      this.isValidPasswordInput = this.validatePassword(this.passwordText);
+      this.isValidPasswordInput = passwordInputValidation(password);
     },
     isValidSubmitValueChange() {
-      if (this.isValidEmailInput && this.isValidPasswordInput) {
+      this.isValidSubmit = this.isValidEmailInput && this.isValidEmailInput;
+    },
+    async register() {
+      if (this.isValidSubmit) {
         try {
-          axios.post("http://localhost:3001/create", {
+          await axios.post(this.backEndPostUrl, {
             email: this.emailText,
-            password: this.passwordText,
+            password: this.passwordText
           });
-          console.log(this.emailText);
-          console.log(this.passwordText);
         } catch (error) {
           console.log(error);
         }
       }
-    },
-  },
+    }
+  }
 });
 </script>
