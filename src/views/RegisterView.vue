@@ -35,7 +35,7 @@
               v-model="emailText"
               @change="
                 () => {
-                  validateEmail(emailText), isValidSubmitValueChange();
+                  validateEmail(emailText), isValidSubmitValueChange()
                 }
               "
               id="email-address"
@@ -57,7 +57,7 @@
               v-model="passwordText"
               @change="
                 () => {
-                  validatePassword(passwordText), isValidSubmitValueChange();
+                  validatePassword(passwordText), isValidSubmitValueChange()
                 }
               "
               id="password"
@@ -89,12 +89,13 @@
         <div>
           <button
             class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            @click="register"
           >
             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
               <LockClosedIcon
+                v-if="!isValidSubmit"
                 class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
                 aria-hidden="true"
-                @click="register"
               />
             </span>
             register
@@ -106,13 +107,13 @@
 </template>
 
 <script lang="ts">
-import { LockClosedIcon } from '@heroicons/vue/20/solid';
-import { defineComponent } from '@vue/runtime-core';
+import { LockClosedIcon } from '@heroicons/vue/20/solid'
+import { defineComponent } from '@vue/runtime-core'
 import {
   emailInputValidation,
   passwordInputValidation
-} from '../utils/inputValidation';
-import axios from 'axios';
+} from '../utils/inputValidation'
+import axios from 'axios'
 export default defineComponent({
   name: 'register-page',
   components: {
@@ -120,36 +121,42 @@ export default defineComponent({
   },
   data() {
     return {
-      backEndPostUrl: 'http://localhost:3001/api/create',
+      backEndPostUrl: 'http://localhost:3001/api/users/signup',
       isValidEmailInput: false,
       isValidPasswordInput: false,
       isValidSubmit: false,
       emailText: '',
-      passwordText: ''
-    };
+      passwordText: '',
+      isAbleToSubmit: false
+    }
   },
   methods: {
     validateEmail(email: string) {
-      this.isValidEmailInput = emailInputValidation(email);
+      this.isValidEmailInput = emailInputValidation(email)
     },
     validatePassword(password: string) {
-      this.isValidPasswordInput = passwordInputValidation(password);
+      this.isValidPasswordInput = passwordInputValidation(password)
     },
     isValidSubmitValueChange() {
-      this.isValidSubmit = this.isValidEmailInput && this.isValidEmailInput;
+      this.isValidSubmit = this.isValidEmailInput && this.isValidEmailInput
     },
     async register() {
       if (this.isValidSubmit) {
         try {
-          await axios.post(this.backEndPostUrl, {
-            email: this.emailText,
-            password: this.passwordText
-          });
+          await axios
+            .post(this.backEndPostUrl, {
+              email: this.emailText,
+              password: this.passwordText
+            })
+            .then((res) => {
+              localStorage.setItem('token', res.data.token)
+            })
+          window.location.replace('/cp/user_home')
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
       }
     }
   }
-});
+})
 </script>

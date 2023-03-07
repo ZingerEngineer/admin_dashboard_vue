@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CPLayout from '../layouts/CPLayout.vue'
+import { getUserToken } from '../utils/getUserToken'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,6 +11,13 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'home',
         component: HomeView,
+        meta: {
+          layout: CPLayout
+        }
+      },
+      {
+        path: 'user_home',
+        component: () => import('../views/UserHomeView.vue'),
         meta: {
           layout: CPLayout
         }
@@ -37,5 +45,14 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
+const userToken = getUserToken()
+let isAuthenticated = false
+if (userToken) {
+  isAuthenticated = true
+}
+router.beforeEach((to, from) => {
+  if (!isAuthenticated && to.name !== 'login') {
+    return { name: 'login' }
+  }
+})
 export default router
