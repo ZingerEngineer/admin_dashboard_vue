@@ -113,7 +113,8 @@ import {
   emailInputValidation,
   passwordInputValidation
 } from '@/utils/inputValidation'
-export default {
+import { defineComponent } from 'vue'
+export default defineComponent({
   name: 'login-page',
   data() {
     return {
@@ -157,5 +158,5 @@ export default {
       }
     }
   }
-}
+})
 </script>
