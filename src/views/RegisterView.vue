@@ -12,7 +12,7 @@
         <h2
           class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
         >
-          Login to your account.
+          Register your account.
         </h2>
       </div>
       <form
@@ -89,7 +89,7 @@
         <div>
           <button
             class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            @click="logIn"
+            @click="register"
           >
             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
               <LockClosedIcon
@@ -98,7 +98,7 @@
                 aria-hidden="true"
               />
             </span>
-            Login
+            register
           </button>
         </div>
       </form>
@@ -108,17 +108,20 @@
 
 <script lang="ts">
 import { LockClosedIcon } from '@heroicons/vue/20/solid'
-import axios from 'axios'
+import { defineComponent } from '@vue/runtime-core'
 import {
   emailInputValidation,
   passwordInputValidation
-} from '@/utils/inputValidation'
-import { defineComponent } from 'vue'
+} from '../utils/inputValidation'
+import axios from 'axios'
 export default defineComponent({
-  name: 'login-page',
+  name: 'register-page',
+  components: {
+    LockClosedIcon
+  },
   data() {
     return {
-      backEndUrl: 'http://localhost:3001/api/users/login',
+      backEndPostUrl: 'http://localhost:3001/api/users/signup',
       isValidEmailInput: false,
       isValidPasswordInput: false,
       isValidSubmit: false,
@@ -126,9 +129,6 @@ export default defineComponent({
       passwordText: '',
       isAbleToSubmit: false
     }
-  },
-  components: {
-    LockClosedIcon
   },
   methods: {
     validateEmail(email: string) {
@@ -140,11 +140,11 @@ export default defineComponent({
     isValidSubmitValueChange() {
       this.isValidSubmit = this.isValidEmailInput && this.isValidEmailInput
     },
-    async logIn() {
+    async register() {
       if (this.isValidSubmit) {
         try {
           await axios
-            .post(this.backEndUrl, {
+            .post(this.backEndPostUrl, {
               email: this.emailText,
               password: this.passwordText
             })
